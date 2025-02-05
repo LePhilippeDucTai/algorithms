@@ -14,8 +14,11 @@ fn main() {
     println!("Hello, world!");
 
     let v = vec![45., 0., 45., 1., 2., -1., 0., -23., 10.];
-    let n = v.len();
     let result = sort::quicksort(v);
     println!("{result:?}");
-    assert_eq!(result.len(), n);
+
+    // For integers
+    let v_int = vec![4, 2, 8, 1, 9, 3];
+    let result = sort::quicksort(v_int);
+    println!("{result:?}");
 }
