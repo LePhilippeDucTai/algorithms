@@ -1,7 +1,4 @@
-// use algorithms::algorithms::{bisect, sort};
-
-use algorithms::alg::{bisect, sort};
-
+use algorithms::alg::{bisect, leet_code, sort};
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
 }
@@ -21,4 +18,7 @@ fn main() {
     let v_int = vec![4, 2, 8, 1, 9, 3];
     let result = sort::quicksort(v_int);
     println!("{result:?}");
+
+    let s = leet_code::two_sum(vec![4, 2, 8, 1, 9, 3], 11);
+    println!("{s:?}");
 }
