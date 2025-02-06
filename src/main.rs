@@ -5,7 +5,7 @@ fn f(x: f64) -> f64 {
 
 fn main() {
     let value = f(3.0);
-    let solution = bisect::bisect_f(0., 2., f);
+    let solution = bisect::bisect(f, 0., 2., 0.0001);
     println!("{solution:?}");
     println!("{value}");
     println!("Hello, world!");
