@@ -1,6 +1,6 @@
 use algorithms::alg::{
     bisect, leet_code,
-    sort::{self, mergesorted},
+    sort::{self, mergesort, mergesorted},
 };
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
@@ -29,4 +29,8 @@ fn main() {
     let b = vec![2, 3, 5, 9, 10];
     let m = mergesorted(a, b);
     println!("{m:?}");
+
+    let x = vec![5, 8, 1, 20, -10, 589, 901, 1, 2, 6];
+    let sorted = mergesort(x);
+    println!("{sorted:?}")
 }
