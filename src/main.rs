@@ -1,4 +1,7 @@
-use algorithms::alg::{bisect, leet_code, sort};
+use algorithms::alg::{
+    bisect, leet_code,
+    sort::{self, merge_sorted},
+};
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
 }
@@ -21,4 +24,9 @@ fn main() {
 
     let s = leet_code::two_sum(vec![4, 2, 8, 1, 9, 3], 11);
     println!("{s:?}");
+
+    let a = vec![1, 2, 3, 5, 6];
+    let b = vec![2, 3, 5, 9, 10];
+    let m = merge_sorted(a, b);
+    println!("{m:?}");
 }

@@ -30,3 +30,16 @@ fn mergesorted(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
     // }
     vec![]
 }
+
+pub fn merge_sorted(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
+    let mut iter_a = a.into_iter().peekable();
+    let mut iter_b = b.into_iter().peekable();
+    std::iter::from_fn(|| match (iter_a.peek(), iter_b.peek()) {
+        (Some(&v1), Some(&v2)) if v1 <= v2 => iter_a.next(),
+        (Some(_), Some(_)) => iter_b.next(),
+        (Some(_), None) => iter_a.next(),
+        (None, Some(_)) => iter_b.next(),
+        _ => None,
+    })
+    .collect()
+}
