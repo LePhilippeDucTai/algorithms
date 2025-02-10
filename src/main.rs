@@ -30,7 +30,10 @@ fn main() {
     let m = sort::mergesorted(a, b);
     println!("{m:?}");
 
-    let x = vec![5, -100, 8, 1, 20, -10, 589, 901, 1, 1401, 2, 6];
+    let x = vec![0, 1, 2, 3, 19, 20, 31];
     let sorted = sort::mergesort(x);
-    println!("{sorted:?}")
+    println!("{sorted:?}");
+
+    let s = sort::linearsearch(sorted, 32);
+    println!("{s}");
 }

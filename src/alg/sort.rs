@@ -36,3 +36,125 @@ pub fn mergesort<T: PartialOrd + Copy>(v: Vec<T>) -> Vec<T> {
     let (left, right) = v.split_at(mid);
     mergesorted(mergesort(left.to_vec()), mergesort(right.to_vec()))
 }
+
+pub fn linearsearch(v: Vec<i32>, value: i32) -> usize {
+    let n = v.len();
+    if n == 0 {
+        return 0;
+    }
+    if value <= v[0] {
+        return 0;
+    }
+    (1..n)
+        .filter(|&i| (v[i - 1] < value) & (value <= v[i]))
+        .next()
+        .unwrap_or(n)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_mergesort_empty() {
+        let v: Vec<i32> = vec![];
+        let sorted = mergesort(v);
+        assert_eq!(sorted, vec![]);
+    }
+
+    #[test]
+    fn test_mergesort_single_element() {
+        let v = vec![1];
+        let sorted = mergesort(v);
+        assert_eq!(sorted, vec![1]);
+    }
+
+    #[test]
+    fn test_mergesort_sorted() {
+        let v = vec![1, 2, 3, 4, 5];
+        let sorted = mergesort(v);
+        assert_eq!(sorted, vec![1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn test_mergesort_unsorted() {
+        let v = vec![5, 3, 1, 4, 2];
+        let sorted = mergesort(v);
+        assert_eq!(sorted, vec![1, 2, 3, 4, 5]);
+    }
+
+    #[test]
+    fn test_mergesort_duplicates() {
+        let v = vec![3, 1, 2, 3, 1];
+        let sorted = mergesort(v);
+        assert_eq!(sorted, vec![1, 1, 2, 3, 3]);
+    }
+
+    #[test]
+    fn test_linearsearch_empty() {
+        let v: Vec<i32> = vec![];
+        let index = linearsearch(v, 3);
+        assert_eq!(index, 0);
+    }
+
+    #[test]
+    fn test_linearsearch_first_element() {
+        let v = vec![1, 2, 3, 4, 5];
+        let index = linearsearch(v, 1);
+        assert_eq!(index, 0);
+    }
+
+    #[test]
+    fn test_linearsearch_middle_element() {
+        let v = vec![1, 2, 3, 4, 5];
+        let index = linearsearch(v, 3);
+        assert_eq!(index, 2);
+    }
+
+    #[test]
+    fn test_linearsearch_last_element() {
+        let v = vec![1, 2, 3, 4, 5];
+        let index = linearsearch(v, 5);
+        assert_eq!(index, 4);
+    }
+
+    #[test]
+    fn test_linearsearch_not_found() {
+        let v = vec![1, 2, 3, 4, 5];
+        let index = linearsearch(v, 6);
+        assert_eq!(index, 5);
+    }
+    #[test]
+    fn test_linearsearch_less_than_min() {
+        let v = vec![1, 2, 3, 4, 5];
+        let index = linearsearch(v, -1);
+        assert_eq!(index, 0);
+    }
+
+    #[test]
+    fn test_linearsearch_1() {
+        let v = vec![0, 1, 2, 3, 19, 20, 31];
+        let index = linearsearch(v, 32);
+        assert_eq!(index, 7);
+    }
+}
+
+// pub fn searchsorted(v: Vec<i32>, value: i32) -> usize {
+//     if v.len() <= 10 {
+//         return linearsearch(v, value);
+//     }
+//     0
+// match (v.len(), v) {
+//     (0, _) => vec![value],
+//     (1, s) => {
+//         if s[0] < value {
+//             vec![s[0], value]
+//         }
+//     }
+//     (_, _) {
+//         let n = v.len();
+//         let m = n / 2;
+//         let (a, mid) = (v[0], v[mid]);
+//     }
+// }
+// }
