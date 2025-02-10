@@ -34,6 +34,6 @@ fn main() {
     let sorted = sort::mergesort(x);
     println!("{sorted:?}");
 
-    let s = sort::linearsearch(sorted, 32);
+    let s = sort::linearsearch(&sorted, 32);
     println!("{s}");
 }
