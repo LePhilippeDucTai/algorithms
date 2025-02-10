@@ -14,7 +14,7 @@ pub fn quicksort<T: PartialOrd + Clone>(v: Vec<T>) -> Vec<T> {
     [left_sorted, vec![value], right_sorted].concat()
 }
 
-pub fn mergesorted(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
+pub fn mergesorted<T: PartialOrd + Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     let mut iter_a = a.into_iter().peekable();
     let mut iter_b = b.into_iter().peekable();
     std::iter::from_fn(|| match (iter_a.peek(), iter_b.peek()) {
@@ -27,7 +27,7 @@ pub fn mergesorted(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
     .collect()
 }
 
-pub fn mergesort(v: Vec<i32>) -> Vec<i32> {
+pub fn mergesort<T: PartialOrd + Copy>(v: Vec<T>) -> Vec<T> {
     let n = v.len();
     if n <= 1 {
         return v;

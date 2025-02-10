@@ -30,7 +30,7 @@ fn main() {
     let m = mergesorted(a, b);
     println!("{m:?}");
 
-    let x = vec![5, 8, 1, 20, -10, 589, 901, 1, 2, 6];
+    let x = vec![5, -100, 8, 1, 20, -10, 589, 901, 1, 1401, 2, 6];
     let sorted = mergesort(x);
     println!("{sorted:?}")
 }
