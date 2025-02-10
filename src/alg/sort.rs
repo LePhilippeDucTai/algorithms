@@ -65,10 +65,26 @@ pub fn searchsorted_f(v: &Vec<i32>, value: i32) -> usize {
 }
 
 pub fn searchsorted(v: &Vec<i32>, value: i32) -> usize {
-    if v.len() <= 8 {
+    if v.len() <= 10 {
         return linearsearch(&v, value);
     }
     searchsorted_f(&v, value)
+}
+
+fn insertion(acc: &mut Vec<i32>, value: i32) -> Vec<i32> {
+    let index = searchsorted(acc, value);
+    acc.insert(index, value);
+    acc.to_vec()
+}
+
+pub fn insertionsort(v: &Vec<i32>) -> Vec<i32> {
+    if v.is_empty() {
+        return v.clone();
+    }
+    let result: Vec<i32> = v.iter().fold(vec![], |mut acc: Vec<i32>, value: &i32| {
+        insertion(&mut acc, *value)
+    });
+    return result;
 }
 
 #[cfg(test)]
@@ -82,6 +98,21 @@ mod tests {
         assert_eq!(searchsorted_f(&v, val), 3);
         assert_eq!(linearsearch(&v, val), 3);
     }
+
+    #[test]
+    fn test_insertionsort() {
+        let v = vec![1, 5, 10, 17, 19, 20, 23, 24, 25, 29, 30];
+        assert_eq!(insertionsort(&v), v)
+    }
+
+    #[test]
+    fn test_insertionsort_unsorted() {
+        let v = vec![5, 3, 1, 4, 2];
+        let sorted = insertionsort(&v);
+        assert_eq!(sorted, vec![1, 2, 3, 4, 5]);
+    }
+
+
 
     #[test]
     fn test_search() {
