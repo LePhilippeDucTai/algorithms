@@ -125,7 +125,6 @@ pub fn heapsort(v: &Vec<i32>) -> Vec<i32> {
         v_copy = heapify(&mut v_copy);
         v_copy.swap(0, last);
         result.push(v_copy.pop().unwrap());
-        println!("{result:?}");
     }
     result.reverse();
     result
