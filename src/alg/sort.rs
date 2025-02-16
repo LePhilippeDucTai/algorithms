@@ -87,7 +87,7 @@ pub fn insertionsort(v: &Vec<i32>) -> Vec<i32> {
     return result;
 }
 
-fn heap_it(v: &mut Vec<i32>, i: usize) {
+fn heap_it(mut v: &mut Vec<i32>, i: usize) -> &mut Vec<i32> {
     let (left, right) = (2 * i + 1, 2 * i + 2);
     let n = v.len();
     let mut largest = i;
@@ -103,18 +103,32 @@ fn heap_it(v: &mut Vec<i32>, i: usize) {
     }
     if largest != i {
         v.swap(largest, i);
-        heap_it(v, largest);
+        v = heap_it(v, largest);
     }
+    v
 }
 
-pub fn heapify(v: &Vec<i32>) -> Vec<i32> {
+pub fn heapify(v: &mut Vec<i32>) -> Vec<i32> {
     let n = v.len();
     let mut v_cop = v.clone();
     for i in (0..(n / 2)).rev() {
-        heap_it(&mut v_cop, i);
-        println!("{v_cop:?}");
+        v_cop = heap_it(&mut v_cop, i).to_vec();
     }
     v_cop
+}
+
+pub fn heapsort(v: &Vec<i32>) -> Vec<i32> {
+    let mut v_copy = v.clone();
+    let mut result: Vec<i32> = vec![];
+    while !v_copy.is_empty() {
+        let last = v_copy.len() - 1;
+        v_copy = heapify(&mut v_copy);
+        v_copy.swap(0, last);
+        result.push(v_copy.pop().unwrap());
+        println!("{result:?}");
+    }
+    result.reverse();
+    result
 }
 
 #[cfg(test)]
@@ -123,9 +137,16 @@ mod tests {
 
     #[test]
     fn test_heapify() {
+        let mut v = vec![1, 10, 41, 2, 10, 20, 1, 21, 4];
+        v = heapify(&mut v);
+        println!("{v:?}")
+    }
+
+    #[test]
+    fn test_heapsort() {
         let v = vec![1, 10, 41, 2, 10, 20, 1, 21, 4];
-        let res = heapify(&v);
-        println!("{res:?}")
+        let result = heapsort(&v);
+        println!("{result:?}")
     }
 
     #[test]
