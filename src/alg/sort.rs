@@ -87,6 +87,8 @@ pub fn insertionsort(v: &Vec<i32>) -> Vec<i32> {
     return result;
 }
 
+// fn heapify(v: Vec<i32>, i: usize) -> Vec<i32> {}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -111,8 +113,6 @@ mod tests {
         let sorted = insertionsort(&v);
         assert_eq!(sorted, vec![1, 2, 3, 4, 5]);
     }
-
-
 
     #[test]
     fn test_search() {
