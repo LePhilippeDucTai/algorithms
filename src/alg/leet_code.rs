@@ -84,7 +84,7 @@ impl Iterator for SqrtSeq {
     }
 }
 
-pub fn sqrt(a: u64) -> u64 {
+pub fn isqrt(a: u64) -> u64 {
     let m = SqrtSeq::new(a as f64);
     m.tuple_windows()
         .find(|(curr, last)| (*curr - *last).abs() < 1.)
@@ -100,12 +100,12 @@ mod tests {
     #[test]
     fn test_sqrt() {
         let a = 64;
-        let result = sqrt(a);
+        let result = isqrt(a);
         assert_eq!(result, 8);
-        assert_eq!(sqrt(144), 12);
-        assert_eq!(sqrt(16), 4);
-        assert_eq!(sqrt(100), 10);
-        assert_eq!(sqrt(121), 11);
-        assert_eq!(sqrt(999998000001), 999999)
+        assert_eq!(isqrt(144), 12);
+        assert_eq!(isqrt(16), 4);
+        assert_eq!(isqrt(100), 10);
+        assert_eq!(isqrt(121), 11);
+        assert_eq!(isqrt(999998000001), 999999)
     }
 }

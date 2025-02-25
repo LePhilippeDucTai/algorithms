@@ -38,6 +38,6 @@ fn main() {
     let s = sort::linearsearch(&sorted, 32);
     println!("{s}");
 
-    let res = leet_code::sqrt(144);
+    let res = leet_code::isqrt(144);
     println!("{}", res);
 }
