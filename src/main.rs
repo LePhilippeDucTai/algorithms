@@ -2,6 +2,7 @@ use algorithms::alg::{
     bisect, leet_code,
     sort::{self},
 };
+
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
 }
@@ -36,4 +37,7 @@ fn main() {
 
     let s = sort::linearsearch(&sorted, 32);
     println!("{s}");
+
+    let res = leet_code::sqrt(144);
+    println!("{}", res);
 }

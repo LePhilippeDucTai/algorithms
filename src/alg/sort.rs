@@ -145,7 +145,7 @@ mod tests {
     fn test_heapsort() {
         let v = vec![1, 10, 41, 2, 10, 20, 1, 21, 4];
         let result = heapsort(&v);
-        println!("{result:?}")
+        assert_eq!(vec![1, 1, 2, 4, 10, 10, 20, 21, 41], result)
     }
 
     #[test]

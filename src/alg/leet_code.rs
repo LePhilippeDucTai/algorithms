@@ -63,6 +63,49 @@ pub fn merge_k_lists(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>>
         .flatten()
 }
 
-fn sqrt(x: u32) -> u32 {
-    0
+pub struct SqrtSeq {
+    value: f64,
+    current: f64,
+}
+
+impl SqrtSeq {
+    pub fn new(value: f64) -> SqrtSeq {
+        let current = value * 0.5;
+        return SqrtSeq { value, current };
+    }
+}
+
+impl Iterator for SqrtSeq {
+    type Item = f64;
+    fn next(&mut self) -> Option<Self::Item> {
+        let curr = 0.5 * (self.current + self.value / self.current);
+        self.current = curr;
+        return Some(curr);
+    }
+}
+
+pub fn sqrt(a: u64) -> u64 {
+    let m = SqrtSeq::new(a as f64);
+    m.tuple_windows()
+        .find(|(curr, last)| (*curr - *last).abs() < 1.)
+        .unwrap()
+        .1
+        .floor() as u64
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_sqrt() {
+        let a = 64;
+        let result = sqrt(a);
+        assert_eq!(result, 8);
+        assert_eq!(sqrt(144), 12);
+        assert_eq!(sqrt(16), 4);
+        assert_eq!(sqrt(100), 10);
+        assert_eq!(sqrt(121), 11);
+        assert_eq!(sqrt(999998000001), 999999)
+    }
 }
