@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use itertools::Itertools;
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
 
 pub fn two_sums(nums: Vec<i32>, target: i32) -> (usize, usize) {
     let enums = nums.iter().enumerate();
@@ -91,6 +92,17 @@ pub fn isqrt(a: u64) -> u64 {
         .unwrap()
         .1
         .floor() as u64
+}
+
+pub fn compute_pi() -> f64 {
+    let n = 1_000_000_000;
+    let dt = 1. / (n as f64);
+    let pi: f64 = (0..n)
+        .into_par_iter()
+        .map(|i| (i as f64) * dt)
+        .map(|x| f64::sqrt(1. - x * x))
+        .sum();
+    return 4.0 * pi * dt;
 }
 
 #[cfg(test)]

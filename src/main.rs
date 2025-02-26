@@ -2,7 +2,7 @@ use algorithms::alg::{
     bisect, leet_code,
     sort::{self},
 };
-
+use std::time::Instant;
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
 }
@@ -40,4 +40,9 @@ fn main() {
 
     let res = leet_code::isqrt(144);
     println!("{}", res);
+
+    let before = Instant::now();
+    let pi = leet_code::compute_pi();
+    println!("Elapsed time: {:.2?}", before.elapsed());
+    println!("{pi}")
 }
