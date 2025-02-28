@@ -45,7 +45,8 @@ pub fn linearsearch(v: &Vec<i32>, value: i32) -> usize {
     if value <= v[0] {
         return 0;
     }
-    (1..n).find(|&i| (v[i - 1] < value) & (value <= v[i]))
+    (1..n)
+        .find(|&i| (v[i - 1] < value) & (value <= v[i]))
         .unwrap_or(n)
 }
 pub fn searchsorted_f(v: &Vec<i32>, value: i32) -> usize {
