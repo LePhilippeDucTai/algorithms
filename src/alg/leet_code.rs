@@ -94,13 +94,13 @@ pub fn isqrt(a: u64) -> u64 {
         .floor() as u64
 }
 
-pub fn compute_pi() -> f64 {
-    let n = 1_000_000_000;
+pub fn compute_pi(n : u64) -> f64 {
     let dt = 1. / (n as f64);
     let pi: f64 = (0..n)
         .into_par_iter()
-        .map(|i| (i as f64) * dt)
-        .map(|x| f64::sqrt(1. - x * x))
+        .map(|i| {
+            let x = (i as f64) * dt;
+            f64::sqrt(1. - x * x)})
         .sum();
     return 4.0 * pi * dt;
 }
@@ -120,4 +120,12 @@ mod tests {
         assert_eq!(isqrt(121), 11);
         assert_eq!(isqrt(999998000001), 999999)
     }
+
+    #[test]
+    fn test_compute_pi() {
+        let result = compute_pi(1_000_000);
+        assert_ne!(result, 0.)
+        
+    }
+
 }
