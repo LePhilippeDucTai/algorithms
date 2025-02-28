@@ -8,9 +8,7 @@ pub fn two_sums(nums: Vec<i32>, target: i32) -> (usize, usize) {
     let inverse_image: HashMap<i32, usize> = enums.clone().map(|(i, &x)| (target - x, i)).collect();
     let result = enums
         .filter(|(_, &x)| inverse_image.contains_key(&x))
-        .map(|(i, x)| (i, inverse_image.get(x).unwrap().to_owned()))
-        .filter(|(i, j)| i != j)
-        .next()
+        .map(|(i, x)| (i, inverse_image.get(x).unwrap().to_owned())).find(|(i, j)| i != j)
         .unwrap();
     result
 }
@@ -38,7 +36,8 @@ pub fn merge_two_lists(
     list1: Option<Box<ListNode>>,
     list2: Option<Box<ListNode>>,
 ) -> Option<Box<ListNode>> {
-    let result = match (list1, list2) {
+    
+    match (list1, list2) {
         (None, None) => None,
         (None, Some(v)) => Some(v),
         (Some(v), None) => Some(v),
@@ -53,14 +52,13 @@ pub fn merge_two_lists(
                 Some(Box::new(res))
             }
         }
-    };
-    return result;
+    }
 }
 
 pub fn merge_k_lists(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {
     lists
         .into_iter()
-        .tree_reduce(|acc, x| merge_two_lists(acc, x))
+        .tree_reduce(merge_two_lists)
         .flatten()
 }
 
@@ -72,7 +70,7 @@ pub struct SqrtSeq {
 impl SqrtSeq {
     pub fn new(value: f64) -> SqrtSeq {
         let current = value * 0.5;
-        return SqrtSeq { value, current };
+        SqrtSeq { value, current }
     }
 }
 
@@ -81,7 +79,7 @@ impl Iterator for SqrtSeq {
     fn next(&mut self) -> Option<Self::Item> {
         let curr = 0.5 * (self.current + self.value / self.current);
         self.current = curr;
-        return Some(curr);
+        Some(curr)
     }
 }
 
@@ -103,7 +101,7 @@ pub fn compute_pi(n: u64) -> f64 {
             f64::sqrt(1. - x * x)
         })
         .sum();
-    return 4.0 * pi * dt;
+    4.0 * pi * dt
 }
 
 #[cfg(test)]

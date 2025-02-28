@@ -1,5 +1,5 @@
 fn split<T: PartialOrd + Clone>(v: Vec<T>, value: &T) -> (Vec<T>, Vec<T>) {
-    let (left, right) = v.into_iter().partition(|x| x < &value);
+    let (left, right) = v.into_iter().partition(|x| x < value);
     (left, right.split_at(1).1.to_vec())
 }
 
@@ -45,15 +45,13 @@ pub fn linearsearch(v: &Vec<i32>, value: i32) -> usize {
     if value <= v[0] {
         return 0;
     }
-    (1..n)
-        .filter(|&i| (v[i - 1] < value) & (value <= v[i]))
-        .next()
+    (1..n).find(|&i| (v[i - 1] < value) & (value <= v[i]))
         .unwrap_or(n)
 }
 pub fn searchsorted_f(v: &Vec<i32>, value: i32) -> usize {
     let n = v.len();
     let n_iter_max = n.ilog2() + 2;
-    let solution = (0..n_iter_max).fold((0 as usize, n), |acc, _| {
+    let solution = (0..n_iter_max).fold((0_usize, n), |acc, _| {
         let (i, j) = acc;
         let m = (i + j) / 2;
         if (v[i] < value) & (value <= v[m]) {
@@ -66,9 +64,9 @@ pub fn searchsorted_f(v: &Vec<i32>, value: i32) -> usize {
 
 pub fn searchsorted(v: &Vec<i32>, value: i32) -> usize {
     if v.len() <= 10 {
-        return linearsearch(&v, value);
+        return linearsearch(v, value);
     }
-    searchsorted_f(&v, value)
+    searchsorted_f(v, value)
 }
 
 fn insertion(acc: &mut Vec<i32>, value: i32) -> Vec<i32> {
@@ -84,22 +82,18 @@ pub fn insertionsort(v: &Vec<i32>) -> Vec<i32> {
     let result: Vec<i32> = v.iter().fold(vec![], |mut acc: Vec<i32>, value: &i32| {
         insertion(&mut acc, *value)
     });
-    return result;
+    result
 }
 
 fn heap_it(mut v: &mut Vec<i32>, i: usize) -> &mut Vec<i32> {
     let (left, right) = (2 * i + 1, 2 * i + 2);
     let n = v.len();
     let mut largest = i;
-    if left < n {
-        if v[left] > v[largest] {
-            largest = left;
-        }
+    if left < n && v[left] > v[largest] {
+        largest = left;
     }
-    if right < n {
-        if v[right] > v[largest] {
-            largest = right;
-        }
+    if right < n && v[right] > v[largest] {
+        largest = right;
     }
     if largest != i {
         v.swap(largest, i);

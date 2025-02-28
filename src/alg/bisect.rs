@@ -4,7 +4,7 @@ pub fn bisect_f<T: Fn(f64) -> f64>(a: f64, b: f64, f: &T) -> (f64, f64) {
     if left * mid < 0.0 {
         return (a, m);
     }
-    return (m, b);
+    (m, b)
 }
 
 pub fn bisect<T: Fn(f64) -> f64>(f: T, a: f64, b: f64, eps: f64) -> (f64, f64) {

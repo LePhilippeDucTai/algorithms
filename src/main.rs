@@ -20,7 +20,7 @@ fn calculate_pi(n: usize) -> f64 {
             x * x + y * y < 1.0
         })
         .count();
-    return 4.0 * (counter as f64) / (n as f64);
+    4.0 * (counter as f64) / (n as f64)
 }
 
 fn main() {
