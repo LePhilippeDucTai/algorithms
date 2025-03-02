@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use itertools::Itertools;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
+use time_it_macro::time_it;
 
 pub fn two_sums(nums: Vec<i32>, target: i32) -> (usize, usize) {
     let enums = nums.iter().enumerate();
@@ -88,7 +89,7 @@ pub fn isqrt(a: u64) -> u64 {
         .1
         .floor() as u64
 }
-
+#[time_it]
 pub fn compute_pi(n: u64) -> f64 {
     let dt = 1. / (n as f64);
     let pi: f64 = (0..n)

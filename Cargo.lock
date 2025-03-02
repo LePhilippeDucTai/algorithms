@@ -9,6 +9,7 @@ dependencies = [
  "itertools",
  "rand",
  "rayon",
+ "time_it_macro",
 ]
 
 [[package]]
@@ -174,6 +175,16 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "time_it_macro"
+version = "0.1.0"
+source = "git+https://github.com/LePhilippeDucTai/time_it_macro.git#b9cab71dea6f9635766b1d97cc5c958cd5715ac1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

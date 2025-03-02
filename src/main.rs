@@ -2,23 +2,27 @@ use algorithms::alg::{
     bisect, leet_code,
     sort::{self},
 };
-use std::time::Instant;
-
 use rand::prelude::*;
-use rand::rngs::SmallRng;
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
+use time_it_macro::time_it;
 
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
 }
 
+#[time_it]
 fn calculate_pi(n: usize) -> f64 {
-    let mut rng = SmallRng::from_os_rng();
     let counter = (0..n)
-        .filter(|_| {
-            let x: f64 = rng.random();
-            let y: f64 = rng.random();
-            x * x + y * y < 1.0
-        })
+        .into_par_iter()
+        .map_init(
+            || rand::rng(),
+            |rng, _| {
+                let x: f64 = rng.random();
+                let y: f64 = rng.random();
+                x * x + y * y < 1.0
+            },
+        )
+        .filter(|&x| x)
         .count();
     4.0 * (counter as f64) / (n as f64)
 }
@@ -57,13 +61,9 @@ fn main() {
     let res = leet_code::isqrt(144);
     println!("{}", res);
 
-    let before = Instant::now();
     let pi = leet_code::compute_pi(1_000_000_000);
-    println!("Elapsed time: {:.2?}", before.elapsed());
     println!("{pi}");
 
-    let before = Instant::now();
-    let pi = calculate_pi(1_000_000_000);
-    println!("Elapsed time: {:.2?}", before.elapsed());
-    println!("{pi}")
+    let pi = calculate_pi(1_000);
+    println!("{pi}");
 }
