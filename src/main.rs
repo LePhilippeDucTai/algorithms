@@ -5,6 +5,7 @@ use algorithms::alg::{
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use time_it_macro::time_it;
+use tracing_subscriber;
 
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
@@ -28,6 +29,7 @@ fn calculate_pi(n: usize) -> f64 {
 }
 
 fn main() {
+    tracing_subscriber::fmt::init();
     let value = f(3.0);
     let solution = bisect::bisect(f, 0., 2., 0.0001);
     println!("{solution:?}");
@@ -63,7 +65,6 @@ fn main() {
 
     let pi = leet_code::compute_pi(1_000_000_000);
     println!("{pi}");
-
     let pi = calculate_pi(1_000);
     println!("{pi}");
 }
