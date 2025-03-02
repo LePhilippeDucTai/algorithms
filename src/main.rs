@@ -1,6 +1,9 @@
-use algorithms::alg::{
-    bisect, leet_code,
-    sort::{self},
+use algorithms::{
+    alg::{
+        bisect, leet_code,
+        sort::{self},
+    },
+    math,
 };
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
@@ -64,8 +67,11 @@ fn main() {
     let res = leet_code::isqrt(144);
     println!("{}", res);
 
-    let pi = leet_code::compute_pi(1_000_000_000);
+    let pi = leet_code::compute_pi(1_000_000);
     println!("{pi}");
     let pi = calculate_pi(1_000_000);
     println!("{pi}");
+
+    let unif = math::brownian::uniform_circle();
+    println!("{unif:?}")
 }
