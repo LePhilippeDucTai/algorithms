@@ -246,7 +246,7 @@ dependencies = [
 [[package]]
 name = "time_it_macro"
 version = "0.1.0"
-source = "git+https://github.com/LePhilippeDucTai/time_it_macro.git#710658af5428f6ca6bcb9e0f4a419c1983bc950a"
+source = "git+https://github.com/LePhilippeDucTai/time_it_macro.git#b42555f2d1121275f0731f6f1f075eb3647e9af0"
 dependencies = [
  "proc-macro2",
  "quote",

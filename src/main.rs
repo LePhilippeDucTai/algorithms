@@ -65,6 +65,6 @@ fn main() {
 
     let pi = leet_code::compute_pi(1_000_000_000);
     println!("{pi}");
-    let pi = calculate_pi(1_000);
+    let pi = calculate_pi(1_000_000);
     println!("{pi}");
 }
