@@ -5,6 +5,7 @@ use algorithms::alg::{
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use time_it_macro::time_it;
+use tracing::info;
 use tracing_subscriber;
 
 fn f(x: f64) -> f64 {
@@ -46,7 +47,7 @@ fn main() {
     println!("{result:?}");
 
     let s = leet_code::two_sum(vec![4, 2, 8, 1, 9, 3], 11);
-    println!("{s:?}");
+    info!("{s:?}");
 
     let a = vec![1, 2, 3, 5, 6];
     let b = vec![2, 3, 5, 9, 10];

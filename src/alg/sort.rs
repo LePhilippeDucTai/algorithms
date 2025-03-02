@@ -1,8 +1,11 @@
+use time_it_macro::time_it;
+
 fn split<T: PartialOrd + Clone>(v: Vec<T>, value: &T) -> (Vec<T>, Vec<T>) {
     let (left, right) = v.into_iter().partition(|x| x < value);
     (left, right.split_at(1).1.to_vec())
 }
 
+#[time_it]
 pub fn quicksort<T: PartialOrd + Clone>(v: Vec<T>) -> Vec<T> {
     if v.len() <= 1 {
         return v;
@@ -14,6 +17,7 @@ pub fn quicksort<T: PartialOrd + Clone>(v: Vec<T>) -> Vec<T> {
     [left_sorted, vec![value], right_sorted].concat()
 }
 
+#[time_it]
 pub fn mergesorted<T: PartialOrd + Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     let mut iter_a = a.into_iter().peekable();
     let mut iter_b = b.into_iter().peekable();
@@ -27,6 +31,7 @@ pub fn mergesorted<T: PartialOrd + Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     .collect()
 }
 
+#[time_it]
 pub fn mergesort<T: PartialOrd + Copy>(v: Vec<T>) -> Vec<T> {
     let n = v.len();
     if n <= 1 {
@@ -37,6 +42,7 @@ pub fn mergesort<T: PartialOrd + Copy>(v: Vec<T>) -> Vec<T> {
     mergesorted(mergesort(left.to_vec()), mergesort(right.to_vec()))
 }
 
+#[time_it]
 pub fn linearsearch(v: &[i32], value: i32) -> usize {
     let n = v.len();
     if n == 0 {
@@ -69,13 +75,13 @@ pub fn searchsorted(v: &[i32], value: i32) -> usize {
     }
     searchsorted_f(v, value)
 }
-
+#[time_it]
 fn insertion(acc: &mut Vec<i32>, value: i32) -> Vec<i32> {
     let index = searchsorted(acc, value);
     acc.insert(index, value);
     acc.to_vec()
 }
-
+#[time_it]
 pub fn insertionsort(v: &[i32]) -> Vec<i32> {
     if v.is_empty() {
         return v.to_owned();
@@ -85,7 +91,7 @@ pub fn insertionsort(v: &[i32]) -> Vec<i32> {
     });
     result
 }
-
+#[time_it]
 fn heap_it(mut v: &mut [i32], i: usize) -> &mut [i32] {
     let (left, right) = (2 * i + 1, 2 * i + 2);
     let n = v.len();
@@ -102,7 +108,7 @@ fn heap_it(mut v: &mut [i32], i: usize) -> &mut [i32] {
     }
     v
 }
-
+#[time_it]
 pub fn heapify(v: &mut [i32]) -> Vec<i32> {
     let n = v.len();
     let mut v_cop = v.to_owned();
@@ -112,6 +118,7 @@ pub fn heapify(v: &mut [i32]) -> Vec<i32> {
     v_cop
 }
 
+#[time_it]
 pub fn heapsort(v: &[i32]) -> Vec<i32> {
     let mut v_copy = v.to_owned();
     let mut result: Vec<i32> = vec![];

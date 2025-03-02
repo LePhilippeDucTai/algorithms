@@ -33,7 +33,7 @@ impl ListNode {
         ListNode { next: None, val }
     }
 }
-
+#[time_it]
 pub fn merge_two_lists(
     list1: Option<Box<ListNode>>,
     list2: Option<Box<ListNode>>,
@@ -80,7 +80,7 @@ impl Iterator for SqrtSeq {
         Some(curr)
     }
 }
-
+#[time_it]
 pub fn isqrt(a: u64) -> u64 {
     let m = SqrtSeq::new(a as f64);
     m.tuple_windows()

@@ -1,3 +1,6 @@
+use time_it_macro::time_it;
+
+#[time_it]
 pub fn bisect_f<T: Fn(f64) -> f64>(a: f64, b: f64, f: &T) -> (f64, f64) {
     let m = (a + b) * 0.5;
     let (left, mid) = (f(a), f(m));
@@ -7,6 +10,7 @@ pub fn bisect_f<T: Fn(f64) -> f64>(a: f64, b: f64, f: &T) -> (f64, f64) {
     (m, b)
 }
 
+#[time_it]
 pub fn bisect<T: Fn(f64) -> f64>(f: T, a: f64, b: f64, eps: f64) -> (f64, f64) {
     let res = (1..).scan((a, b), |acc, _| {
         let (x, y) = *acc;
