@@ -8,7 +8,8 @@ pub fn two_sums(nums: Vec<i32>, target: i32) -> (usize, usize) {
     let inverse_image: HashMap<i32, usize> = enums.clone().map(|(i, &x)| (target - x, i)).collect();
     let result = enums
         .filter(|(_, &x)| inverse_image.contains_key(&x))
-        .map(|(i, x)| (i, inverse_image.get(x).unwrap().to_owned())).find(|(i, j)| i != j)
+        .map(|(i, x)| (i, inverse_image.get(x).unwrap().to_owned()))
+        .find(|(i, j)| i != j)
         .unwrap();
     result
 }
@@ -36,7 +37,6 @@ pub fn merge_two_lists(
     list1: Option<Box<ListNode>>,
     list2: Option<Box<ListNode>>,
 ) -> Option<Box<ListNode>> {
-    
     match (list1, list2) {
         (None, None) => None,
         (None, Some(v)) => Some(v),
@@ -56,10 +56,7 @@ pub fn merge_two_lists(
 }
 
 pub fn merge_k_lists(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {
-    lists
-        .into_iter()
-        .tree_reduce(merge_two_lists)
-        .flatten()
+    lists.into_iter().tree_reduce(merge_two_lists).flatten()
 }
 
 pub struct SqrtSeq {

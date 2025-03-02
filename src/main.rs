@@ -58,7 +58,7 @@ fn main() {
     println!("{}", res);
 
     let before = Instant::now();
-    let pi = leet_code::compute_pi(1_000_000);
+    let pi = leet_code::compute_pi(1_000_000_000);
     println!("Elapsed time: {:.2?}", before.elapsed());
     println!("{pi}");
 
