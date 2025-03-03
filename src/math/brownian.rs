@@ -1,16 +1,37 @@
+use itertools::Itertools;
 use rand::{distr::Uniform, Rng};
+use rand_distr::{StandardNormal, Distribution, Open01};
+use time_it_macro::time_it;
 // Marsaglia Normal simulation
-pub fn uniform_circle() -> (f64, f64) {
-    let unif = Uniform::new(-1., 1.);
-    let mut rng = rand::rng();
-    let x = rng.sample(unif.unwrap());
-    let xsq = x * x;
-    let y = rng
-        .sample_iter(unif.unwrap())
-        .find(|z| z * z + xsq < 1.)
-        .unwrap();
-    return (x, y);
+
+#[derive(Clone, Copy, Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct UniformUnitDisk;
+
+
+impl Distribution<(f64, f64)> for UniformUnitDisk {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> (f64, f64) {
+        let res = std::iter::from_fn(|| {
+            let a : f64 = rng.sample(Open01);
+            let b : f64 = rng.sample(Open01);
+            let x : f64= 2.* a -1.;
+            let y :f64 = 2.*b - 1.;
+            Some((x,y))
+        }).find(|(x, y)| x*x + y*y < 1.).unwrap();
+        res
+    }
 }
+
+// #[time_it]
+// pub fn uniform_circle() -> (f64, f64) {
+//     let mut rng = rand::rng();
+//     let res = std::iter::from_fn(|| {
+//         let x= 2.* rng.sample(Open01) -1.;
+//         let y = 2.* rng.sample(Open01) -1.;
+//         Some((x,y))
+//     }).find(|(x, y)| x*x + y*y < 1.).unwrap();
+//     res
+// }
 
 struct Brownian {
     times: Vec<f64>,

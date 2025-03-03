@@ -72,6 +72,12 @@ fn main() {
     let pi = calculate_pi(1_000_000);
     println!("{pi}");
 
-    let unif = math::brownian::uniform_circle();
-    println!("{unif:?}")
+    let unif_disk = math::brownian::UniformUnitDisk;
+    let mut rng = rand::rng();
+    let res = unif_disk.sample(&mut rng);
+    println!("{res:?}");
+    let v = unif_disk.sample_iter(&mut rng).take(10).collect::<Vec<_>>();
+    println!("{v:?}");
+    // let unif = math::brownian::uniform_circle();
+    // println!("{unif:?}")
 }
