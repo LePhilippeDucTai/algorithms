@@ -1,11 +1,8 @@
-use itertools::Itertools;
-use rand::{distr::Uniform, Rng};
-use rand_distr::{StandardNormal, Distribution, Open01};
-use time_it_macro::time_it;
+use rand::Rng;
+use rand_distr::{Distribution, Open01};
 // Marsaglia Normal simulation
 
 #[derive(Clone, Copy, Debug)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct UniformUnitDisk;
 
 
