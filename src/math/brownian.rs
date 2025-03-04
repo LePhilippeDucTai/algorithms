@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 
 use rand::Rng;
-use rand_distr::{Distribution, Open01};
+use rand_distr::{Distribution, Uniform};
 // Marsaglia Normal simulation
 
 #[derive(Clone, Copy, Debug)]
@@ -9,16 +9,12 @@ pub struct UniformUnitDisk;
 
 impl Distribution<(f64, f64)> for UniformUnitDisk {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> (f64, f64) {
-        let res = std::iter::from_fn(|| {
-            let a: f64 = rng.sample(Open01);
-            let b: f64 = rng.sample(Open01);
-            let x: f64 = 2. * a - 1.;
-            let y: f64 = 2. * b - 1.;
-            Some((x, y))
-        })
-        .find(|(x, y)| x * x + y * y < 1.)
-        .unwrap();
-        res
+        let unif = Uniform::new(-1., 1.).unwrap();
+        let a: f64 = rng.sample(unif);
+        let y = (1. - a * a).sqrt();
+        let cond_unif = Uniform::new(-y, y).unwrap();
+        let b = rng.sample(cond_unif);
+        (a, b)
     }
 }
 

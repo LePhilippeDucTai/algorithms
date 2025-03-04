@@ -85,7 +85,6 @@ fn main() {
 
     let normal_biv_std = math::brownian::BivariateStandardNormal;
     let start = Instant::now();
-    let n_sim = 1_000_000;
     let _v = normal_biv_std
         .sample_iter(&mut rng)
         .take(n_sim)
@@ -95,7 +94,6 @@ fn main() {
 
     let normal_std = math::brownian::StandardNormal::new();
     let start = Instant::now();
-    let n_sim = 1_000_000;
     let _v = normal_std.sample_iter(&mut rng).take(n_sim).collect_vec();
     let duration = start.elapsed();
     println!("Univariate Normal {n_sim} est de : {:?}", duration);
