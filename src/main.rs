@@ -5,8 +5,10 @@ use algorithms::{
     },
     math,
 };
+use itertools::Itertools;
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
+use std::time::Instant;
 use time_it_macro::time_it;
 use tracing::info;
 use tracing_subscriber;
@@ -74,10 +76,27 @@ fn main() {
 
     let unif_disk = math::brownian::UniformUnitDisk;
     let mut rng = rand::rng();
-    let res = unif_disk.sample(&mut rng);
-    println!("{res:?}");
-    let v = unif_disk.sample_iter(&mut rng).take(10).collect::<Vec<_>>();
-    println!("{v:?}");
-    // let unif = math::brownian::uniform_circle();
-    // println!("{unif:?}")
+
+    let start = Instant::now();
+    let n_sim = 1_000_000;
+    let _v = unif_disk.sample_iter(&mut rng).take(n_sim).collect_vec();
+    let duration = start.elapsed();
+    println!("UniformUnitDisk {n_sim} est de : {:?}", duration);
+
+    let normal_biv_std = math::brownian::BivariateStandardNormal;
+    let start = Instant::now();
+    let n_sim = 1_000_000;
+    let _v = normal_biv_std
+        .sample_iter(&mut rng)
+        .take(n_sim)
+        .collect_vec();
+    let duration = start.elapsed();
+    println!("Bivariate Normal {n_sim} est de : {:?}", duration);
+
+    let normal_std = math::brownian::StandardNormal::new();
+    let start = Instant::now();
+    let n_sim = 1_000_000;
+    let _v = normal_std.sample_iter(&mut rng).take(n_sim).collect_vec();
+    let duration = start.elapsed();
+    println!("Univariate Normal {n_sim} est de : {:?}", duration);
 }
