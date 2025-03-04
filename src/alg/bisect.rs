@@ -1,6 +1,5 @@
 use rand_distr::num_traits::Float;
 use time_it_macro::time_it;
-// use
 
 #[time_it]
 pub fn bisect_f<T, F>(a: T, b: T, f: F) -> (T, T)
@@ -17,7 +16,11 @@ where
 }
 
 #[time_it]
-pub fn bisect<T: Fn(f64) -> f64>(f: T, a: f64, b: f64, eps: f64) -> (f64, f64) {
+pub fn bisect<T, F>(f: F, a: T, b: T, eps: T) -> (T, T)
+where
+    F: Fn(T) -> T,
+    T: Float,
+{
     let res = (1..).scan((a, b), |acc, _| {
         let (x, y) = *acc;
         let new_interval = bisect_f(x, y, &f);
@@ -32,10 +35,19 @@ pub fn bisect<T: Fn(f64) -> f64>(f: T, a: f64, b: f64, eps: f64) -> (f64, f64) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
     fn test_bisect_f() {
         let f = |x| x;
         assert_eq!(bisect_f(-1., 1., f), (0., 1.));
         assert_eq!(bisect_f(-2., 1., f), (-0.5, 1.));
+    }
+
+    #[test]
+    fn test_bisect() {
+        let f = |x| x;
+        let result = bisect(f, -2., 1., 1e-6);
+        assert!(result.0.abs() < 1e-6);
+        assert!(result.1.abs() < 1e-6);
     }
 }
