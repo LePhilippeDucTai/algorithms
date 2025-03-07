@@ -64,15 +64,15 @@ fn main() {
     println!("{sorted:?}");
 
     let s = sort::linearsearch(&sorted, 32);
-    println!("{s}");
+    info!("{s}");
 
     let res = leet_code::isqrt(144);
-    println!("{}", res);
+    info!("{}", res);
 
     let pi = leet_code::compute_pi(1_000_000);
-    println!("{pi}");
+    info!("{pi}");
     let pi = calculate_pi(1_000_000);
-    println!("{pi}");
+    info!("{pi}");
 
     let unif_disk = math::brownian::UniformUnitDisk;
     let mut rng = rand::rng();
@@ -81,7 +81,7 @@ fn main() {
     let n_sim = 1_000_000;
     let _v = unif_disk.sample_iter(&mut rng).take(n_sim).collect_vec();
     let duration = start.elapsed();
-    println!("UniformUnitDisk {n_sim} est de : {:?}", duration);
+    info!("UniformUnitDisk {n_sim} est de : {:?}", duration);
 
     let normal_biv_std = math::brownian::BivariateStandardNormal;
     let start = Instant::now();
@@ -90,11 +90,11 @@ fn main() {
         .take(n_sim)
         .collect_vec();
     let duration = start.elapsed();
-    println!("Bivariate Normal {n_sim} est de : {:?}", duration);
+    info!("Bivariate Normal {n_sim} est de : {:?}", duration);
 
     let normal_std = math::brownian::StandardNormal::new();
     let start = Instant::now();
     let _v = normal_std.sample_iter(&mut rng).take(n_sim).collect_vec();
     let duration = start.elapsed();
-    println!("Univariate Normal {n_sim} est de : {:?}", duration);
+    info!("Univariate Normal {n_sim} est de : {:?}", duration);
 }
