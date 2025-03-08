@@ -3,7 +3,7 @@ use algorithms::{
         bisect, leet_code,
         sort::{self},
     },
-    math,
+    math::{self, process::IterableProcess, process::Process},
 };
 use itertools::Itertools;
 use rand::prelude::*;
@@ -98,6 +98,6 @@ fn main() {
     let duration = start.elapsed();
     info!("Univariate Normal {n_sim} est de : {:?}", duration);
 
-    let b = math::process::Process::new();
+    let b = Process::new();
     b.iter().for_each(|(t, x)| println!("{t}{x}"));
 }

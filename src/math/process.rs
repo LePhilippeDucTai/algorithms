@@ -2,7 +2,7 @@ use std::iter::zip;
 use std::slice::Iter;
 
 pub struct Process {
-    times: Vec<f64>,
+    t: Vec<f64>,
     x: Vec<f64>,
 }
 
@@ -18,24 +18,38 @@ impl<'a> Iterator for ProcessIter<'a> {
     }
 }
 
+pub trait IterableProcess {
+    fn t(&self) -> &Vec<f64>;
+    fn x(&self) -> &Vec<f64>;
+    fn iter(&self) -> ProcessIter {
+        ProcessIter {
+            iter: zip(self.t().iter(), self.x().iter()),
+        }
+    }
+}
+
 impl Process {
     pub fn new() -> Self {
         Process {
-            times: vec![0.],
+            t: vec![0.],
             x: vec![0.],
         }
     }
+}
 
-    pub fn iter(&self) -> ProcessIter {
-        ProcessIter {
-            iter: zip(self.times.iter(), self.x.iter()),
-        }
+impl IterableProcess for Process {
+    fn t(&self) -> &Vec<f64> {
+        &self.t
+    }
+
+    fn x(&self) -> &Vec<f64> {
+        &self.x
     }
 }
 
 pub fn process_build() {
     let b = Process::new();
-    println!("{:?}", b.times);
+    println!("{:?}", b.t);
     println!("{:?}", b.x);
 
     b.iter().for_each(|(t, x)| println!("{t}{x}"));
