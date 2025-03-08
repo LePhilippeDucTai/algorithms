@@ -74,7 +74,7 @@ fn main() {
     let pi = calculate_pi(1_000_000);
     info!("{pi}");
 
-    let unif_disk = math::brownian::UniformUnitDisk;
+    let unif_disk = math::random::UniformUnitDisk;
     let mut rng = rand::rng();
 
     let start = Instant::now();
@@ -83,7 +83,7 @@ fn main() {
     let duration = start.elapsed();
     info!("UniformUnitDisk {n_sim} est de : {:?}", duration);
 
-    let normal_biv_std = math::brownian::BivariateStandardNormal;
+    let normal_biv_std = math::random::BivariateStandardNormal;
     let start = Instant::now();
     let _v = normal_biv_std
         .sample_iter(&mut rng)
@@ -92,7 +92,7 @@ fn main() {
     let duration = start.elapsed();
     info!("Bivariate Normal {n_sim} est de : {:?}", duration);
 
-    let normal_std = math::brownian::StandardNormal::new();
+    let normal_std = math::random::StandardNormal::new();
     let start = Instant::now();
     let _v = normal_std.sample_iter(&mut rng).take(n_sim).collect_vec();
     let duration = start.elapsed();
