@@ -2,6 +2,7 @@ use std::cell::RefCell;
 
 use rand::Rng;
 use rand_distr::{Distribution, Uniform};
+
 // Marsaglia Normal simulation
 
 #[derive(Clone, Copy, Debug)]
@@ -55,24 +56,4 @@ impl Distribution<f64> for StandardNormal {
             x
         }
     }
-}
-
-pub struct Brownian {
-    times: Vec<f64>,
-    x: Vec<f64>,
-}
-
-impl Brownian {
-    fn new() -> Self {
-        Brownian {
-            times: vec![0.],
-            x: vec![0.],
-        }
-    }
-}
-
-pub fn brownian_build() {
-    let b = Brownian::new();
-    println!("{:?}", b.times);
-    println!("{:?}", b.x);
 }
