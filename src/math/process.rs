@@ -38,10 +38,11 @@ impl Process {
 }
 
 impl IterableProcess for Process {
+    #[inline(always)]
     fn t(&self) -> &Vec<f64> {
         &self.t
     }
-
+    #[inline(always)]
     fn x(&self) -> &Vec<f64> {
         &self.x
     }
