@@ -2,58 +2,83 @@ use itertools::Itertools;
 use rand::Rng;
 use rand_distr::{Normal, StandardNormal};
 
-struct Brownian {
-    x0: f64,
+pub struct IterProcess<'a, P: RandomProcess, R: Rng + ?Sized> {
+    process: &'a P,
+    rng: &'a mut R,
+    log2n: u8,
+    terminal_date: f64,
 }
 
-impl Brownian {
-    fn default(&self) -> Brownian {
-        Brownian { x0: 0.0 }
+impl<'a, P: RandomProcess, R: Rng + ?Sized> Iterator for IterProcess<'a, P, R> {
+    type Item = Vec<(f64, f64)>;
+    fn next(&mut self) -> Option<Self::Item> {
+        let trajectory = self
+            .process
+            .sample(&mut self.rng, self.log2n, self.terminal_date);
+        Some(trajectory)
     }
 }
 
-struct BrownianProcess {
-    t: Vec<f64>,
-    x: Vec<f64>,
-}
-
-// impl<'a> IterableProcess for BrownianProcess<'a> {
-//     #[inline(always)]
-//     fn t(&self) -> &Vec<f64> {
-//         &self.t
-//     }
-//     #[inline(always)]
-//     fn x(&self) -> &Vec<f64> {
-//         &self.x
-//     }
-// }
-
-impl Brownian {
+pub trait RandomProcess {
     fn sample<R: Rng + ?Sized>(
         &self,
         rng: &mut R,
         log2n: u8,
         terminal_date: f64,
-    ) -> BrownianProcess {
-        let terminal_value: f64 = rng.sample::<f64, _>(StandardNormal) * terminal_date;
-        let dates = vec![0.0, terminal_date];
-        let values = vec![self.x0, terminal_value];
-        let points_v = vec![(0.0, self.x0), (terminal_date, terminal_value)];
-        let points_w = points_v.clone();
-        let inter_points = points_v
-            .into_iter()
-            .tuple_windows()
-            .map(|((t1, x1), (t2, x2))| {
-                let t_mid = (t1 + t2) * 0.5;
-                let mid = (x1 + x2) * 0.5;
-                let std = ((t2 - t1) * 0.25).sqrt();
-                let distr = Normal::new(mid, std).unwrap();
-                (t_mid, rng.sample(distr))
-            });
-        let result_points = points_w.into_iter().interleave(inter_points).collect_vec();
-        BrownianProcess {
-            t: dates,
-            x: values,
+    ) -> Vec<(f64, f64)>;
+
+    fn sample_iter<'a, R: Rng + ?Sized>(
+        &'a self,
+        rng: &'a mut R,
+        log2n: u8,
+        terminal_date: f64,
+    ) -> IterProcess<'a, Self, R>
+    where
+        Self: Sized,
+    {
+        IterProcess {
+            process: self,
+            rng,
+            log2n,
+            terminal_date,
         }
+    }
+}
+
+pub struct BrownianProcess;
+
+fn sample_midpoint<R: Rng + ?Sized>(rng: &mut R, v: &[(f64, f64)]) -> Vec<(f64, f64)> {
+    let w = v
+        .iter()
+        .tuple_windows()
+        .map(|((t1, x1), (t2, x2))| {
+            let t_mid = (t1 + t2) * 0.5;
+            let mid = (x1 + x2) * 0.5;
+            let std = ((t2 - t1) * 0.25).sqrt();
+            let distr = Normal::new(mid, std).unwrap();
+            (t_mid, rng.sample(distr))
+        })
+        .collect_vec();
+    w
+}
+
+fn brownian_bridge_iter<R: Rng + ?Sized>(v: Vec<(f64, f64)>, rng: &mut R) -> Vec<(f64, f64)> {
+    let s: Vec<(f64, f64)> = sample_midpoint(rng, &v);
+    let it: Vec<(f64, f64)> = v.iter().interleave(s.iter()).map(|a| *a).collect();
+    it
+}
+
+impl RandomProcess for BrownianProcess {
+    fn sample<R: Rng + ?Sized>(
+        &self,
+        rng: &mut R,
+        log2n: u8,
+        terminal_date: f64,
+    ) -> Vec<(f64, f64)> {
+        let terminal_value: f64 = rng.sample::<f64, _>(StandardNormal) * terminal_date.sqrt();
+        let v: Vec<(f64, f64)> = vec![(0., 0.), (terminal_date, terminal_value)];
+        let brownian: Vec<(f64, f64)> =
+            (0..log2n).fold(v, |acc: Vec<(f64, f64)>, _| brownian_bridge_iter(acc, rng));
+        brownian
     }
 }

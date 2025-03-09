@@ -3,11 +3,15 @@ use algorithms::{
         bisect, leet_code,
         sort::{self},
     },
-    math::{self, process::IterableProcess, process::Process},
+    math::{
+        self,
+        brownian::{BrownianProcess, RandomProcess},
+        process::{IterableProcess, Process},
+    },
 };
 use itertools::Itertools;
+use plotly::{Plot, Scatter};
 use rand::prelude::*;
-use rand_distr::Normal;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::time::Instant;
 use time_it_macro::time_it;
@@ -34,26 +38,6 @@ fn calculate_pi(n: usize) -> f64 {
         .count();
     4.0 * (counter as f64) / (n as f64)
 }
-
-fn sample_midpoint(rng: &mut ThreadRng, v: &Vec<&(f64, f64)>) -> Vec<(f64, f64)> {
-    let w = v
-        .iter()
-        .tuple_windows()
-        .map(|((t1, x1), (t2, x2))| {
-            let t_mid = (t1 + t2) * 0.5;
-            let mid = (x1 + x2) * 0.5;
-            let std = ((t2 - t1) * 0.25).sqrt();
-            let distr = Normal::new(mid, std).unwrap();
-            (t_mid, rng.sample(distr))
-        })
-        .collect_vec();
-    return w;
-}
-
-// fn interleave(v: Vec<(f64, f64)>, w: Vec<(f64, f64)>) -> Vec<(f64, f64)> {
-//     let res = v.iter().interleave(w.iter()).collect::<Vec<_>>();
-//     return res;
-// }
 
 fn main() {
     tracing_subscriber::fmt::init();
@@ -122,8 +106,24 @@ fn main() {
     let b = Process::new();
     b.iter().for_each(|(t, x)| println!("{t}{x}"));
 
-    let v = vec![&(0., 0.), &(1., 10.)];
-    let s = sample_midpoint(&mut rng, &v);
-    let it = v.iter().interleave(&s).collect_vec();
-    println!("{it:?}");
+    let brownian = BrownianProcess;
+    let mut srng = StdRng::from_seed([5; 32]);
+    let trajectory = brownian.sample(&mut srng, 8, 100.);
+    let (t, x) = trajectory.iter().map(|&(t, x)| (t, x)).unzip();
+    println!("{trajectory:?}");
+    let mut plot = Plot::new();
+    let trace = Scatter::new(t, x);
+    plot.add_trace(trace);
+    plot.write_html("out.html");
+
+    let mut plot = Plot::new();
+    let _: () = brownian
+        .sample_iter(&mut srng, 10, 1.)
+        .take(1_000)
+        .for_each(|trajectory| {
+            let (t, x) = trajectory.iter().map(|&(t, x)| (t, x)).unzip();
+            let trace = Scatter::new(t, x);
+            plot.add_trace(trace);
+        });
+    plot.write_html("out.html");
 }
