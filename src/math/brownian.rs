@@ -39,7 +39,7 @@ impl Brownian {
         let dates = vec![0.0, terminal_date];
         let values = vec![self.x0, terminal_value];
         let points_v = vec![(0.0, self.x0), (terminal_date, terminal_value)];
-        let points_w = vec![(0.0, self.x0), (terminal_date, terminal_value)];
+        let points_w = points_v.clone();
         let inter_points = points_v
             .into_iter()
             .tuple_windows()
