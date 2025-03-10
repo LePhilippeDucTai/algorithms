@@ -55,7 +55,7 @@ fn sample_midpoint<R: Rng + ?Sized>(rng: &mut R, v: &[(f64, f64)]) -> Vec<(f64, 
             let t_mid = (t1 + t2) * 0.5;
             let mid = (x1 + x2) * 0.5;
             let std = ((t2 - t1) * 0.25).sqrt();
-            let distr = Normal::new(mid, std).unwrap();
+            let distr: Normal<f64> = Normal::new(mid, std).unwrap();
             (t_mid, rng.sample(distr))
         })
         .collect_vec();

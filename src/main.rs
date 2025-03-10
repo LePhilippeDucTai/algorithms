@@ -6,7 +6,6 @@ use algorithms::{
     math::{
         self,
         brownian::{BrownianProcess, RandomProcess},
-        process::{IterableProcess, Process},
     },
 };
 use itertools::Itertools;
@@ -102,9 +101,6 @@ fn main() {
     let _v = normal_std.sample_iter(&mut rng).take(n_sim).collect_vec();
     let duration = start.elapsed();
     info!("Univariate Normal {n_sim} est de : {:?}", duration);
-
-    let b = Process::new();
-    b.iter().for_each(|(t, x)| println!("{t}{x}"));
 
     let brownian = BrownianProcess;
     let mut srng = StdRng::from_seed([5; 32]);
