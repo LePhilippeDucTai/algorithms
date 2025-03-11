@@ -1,6 +1,6 @@
 use itertools::Itertools;
 use rand::Rng;
-use rand_distr::{Normal, StandardNormal};
+use rand_distr::Normal;
 
 pub struct IterProcess<'a, P: RandomProcess, R: Rng + ?Sized> {
     process: &'a P,
@@ -75,7 +75,9 @@ impl RandomProcess for BrownianProcess {
         log2n: u8,
         terminal_date: f64,
     ) -> Vec<(f64, f64)> {
-        let terminal_value: f64 = rng.sample::<f64, _>(StandardNormal) * terminal_date.sqrt();
+        let std = terminal_date.sqrt();
+        let distr: Normal<f64> = Normal::new(0.0, std).unwrap();
+        let terminal_value = rng.sample::<f64, _>(distr);
         let v: Vec<(f64, f64)> = vec![(0., 0.), (terminal_date, terminal_value)];
         let brownian: Vec<(f64, f64)> =
             (0..log2n).fold(v, |acc: Vec<(f64, f64)>, _| brownian_bridge_iter(acc, rng));
