@@ -121,5 +121,5 @@ fn main() {
             let trace = Scatter::new(t, x);
             plot.add_trace(trace);
         });
-    plot.write_html("out.html");
+    // plot.write_html("out.html");
 }
