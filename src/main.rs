@@ -12,6 +12,7 @@ use itertools::Itertools;
 use plotly::{Plot, Scatter};
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
+use std::collections::{HashMap, HashSet};
 use std::time::Instant;
 use time_it_macro::time_it;
 use tracing::info;
@@ -122,4 +123,14 @@ fn main() {
             plot.add_trace(trace);
         });
     // plot.write_html("out.html");
+    //
+    let a = HashSet::from([1, 2, 3]);
+    let b = HashSet::from([4, 2, 3, 4]);
+
+    // Print 1, 2, 3, 4 in arbitrary order.
+    for x in a.union(&b) {
+        println!("{x}");
+    }
+
+    let union: HashSet<_> = a.union(&b).collect();
 }
