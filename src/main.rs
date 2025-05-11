@@ -13,7 +13,6 @@ use itertools::Itertools;
 use plotly::{Plot, Scatter};
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
-use std::collections::HashSet;
 use std::time::Instant;
 use time_it_macro::time_it;
 use tracing::info;
