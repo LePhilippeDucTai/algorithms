@@ -9,7 +9,7 @@ pub struct IterProcess<'a, P: RandomProcess, R: Rng + ?Sized> {
     terminal_date: f64,
 }
 
-impl<'a, P: RandomProcess, R: Rng + ?Sized> Iterator for IterProcess<'a, P, R> {
+impl<P: RandomProcess, R: Rng + ?Sized> Iterator for IterProcess<'_, P, R> {
     type Item = Vec<(f64, f64)>;
     fn next(&mut self) -> Option<Self::Item> {
         let trajectory = self
@@ -64,7 +64,7 @@ fn sample_midpoint<R: Rng + ?Sized>(rng: &mut R, v: &[(f64, f64)]) -> Vec<(f64, 
 
 fn brownian_bridge_iter<R: Rng + ?Sized>(v: Vec<(f64, f64)>, rng: &mut R) -> Vec<(f64, f64)> {
     let s: Vec<(f64, f64)> = sample_midpoint(rng, &v);
-    let it: Vec<(f64, f64)> = v.iter().interleave(s.iter()).map(|a| *a).collect();
+    let it: Vec<(f64, f64)> = v.iter().interleave(s.iter()).copied().collect();
     it
 }
 

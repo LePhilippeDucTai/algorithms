@@ -35,6 +35,12 @@ impl Distribution<(f64, f64)> for BivariateStandardNormal {
     }
 }
 
+impl Default for StandardNormal {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl StandardNormal {
     pub fn new() -> Self {
         StandardNormal {

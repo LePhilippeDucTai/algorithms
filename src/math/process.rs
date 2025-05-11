@@ -28,6 +28,12 @@ pub trait IterableProcess {
     }
 }
 
+impl Default for Process {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Process {
     pub fn new() -> Self {
         Process {

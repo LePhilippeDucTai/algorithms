@@ -2,6 +2,7 @@ use algorithms::{
     alg::{
         bisect, leet_code,
         sort::{self},
+        sudoku,
     },
     math::{
         self,
@@ -12,11 +13,10 @@ use itertools::Itertools;
 use plotly::{Plot, Scatter};
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use std::time::Instant;
 use time_it_macro::time_it;
 use tracing::info;
-use tracing_subscriber;
 
 fn f(x: f64) -> f64 {
     (0.5 * x).exp() + x * x - 3.0
@@ -26,14 +26,11 @@ fn f(x: f64) -> f64 {
 fn calculate_pi(n: usize) -> f64 {
     let counter = (0..n)
         .into_par_iter()
-        .map_init(
-            || rand::rng(),
-            |rng, _| {
-                let x: f64 = rng.random();
-                let y: f64 = rng.random();
-                x * x + y * y < 1.0
-            },
-        )
+        .map_init(rand::rng, |rng, _| {
+            let x: f64 = rng.random();
+            let y: f64 = rng.random();
+            x * x + y * y < 1.0
+        })
         .filter(|&x| x)
         .count();
     4.0 * (counter as f64) / (n as f64)
@@ -124,13 +121,22 @@ fn main() {
         });
     // plot.write_html("out.html");
     //
-    let a = HashSet::from([1, 2, 3]);
-    let b = HashSet::from([4, 2, 3, 4]);
+    let board_data = [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    ];
 
-    // Print 1, 2, 3, 4 in arbitrary order.
-    for x in a.union(&b) {
-        println!("{x}");
-    }
-
-    let union: HashSet<_> = a.union(&b).collect();
+    let mut board = sudoku::Board::new(board_data);
+    let x = &board.candidates;
+    println!("{x:?}");
+    board.solve();
+    let y = &board.candidates;
+    println!("{y:?}");
 }
