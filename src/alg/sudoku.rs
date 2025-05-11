@@ -21,6 +21,7 @@ type Candidates = HashMap<(usize, usize), HashSet<u8>>;
 
 pub struct Board {
     board: [[u8; DIM]; DIM],
+    nums: HashSet<u8>,
     candidates: Candidates,
 }
 
@@ -40,23 +41,22 @@ fn compute_taken_items_at(i: usize, j: usize, board: &[[u8; DIM]; DIM]) -> HashS
 }
 fn initial_scan(board: &[[u8; DIM]; DIM]) -> Candidates {
     let mut available_positions: Candidates = HashMap::new();
-    let candidates = HashSet::from(CANDIDATES);
+    let nums = HashSet::from(CANDIDATES);
     (0..DIM)
         .cartesian_product(0..DIM)
         .filter(|(i, j)| board[*i][*j] == NULL_ELEMENT)
         .for_each(|(i, j)| {
             let unions = compute_taken_items_at(i, j, board);
-            available_positions.insert((i, j), &candidates - &unions);
+            available_positions.insert((i, j), &nums - &unions);
         });
     available_positions
 }
 
 fn update_candidates(board: &mut Board) {
     let mut available_positions: Candidates = HashMap::new();
-    let candidates = HashSet::from(CANDIDATES);
     board.candidates.keys().for_each(|(i, j)| {
         let unions = compute_taken_items_at(*i, *j, &board.board);
-        available_positions.insert((*i, *j), &candidates - &unions);
+        available_positions.insert((*i, *j), &board.nums - &unions);
     });
     board.candidates = available_positions;
 }
@@ -80,7 +80,12 @@ fn easy_fill(board: &mut Board) -> bool {
 impl Board {
     pub fn new(board: [[u8; DIM]; DIM]) -> Self {
         let candidates = initial_scan(&board);
-        Board { board, candidates }
+        let nums = HashSet::from(CANDIDATES);
+        Board {
+            board,
+            nums,
+            candidates,
+        }
     }
 
     pub fn solve(&mut self) {
