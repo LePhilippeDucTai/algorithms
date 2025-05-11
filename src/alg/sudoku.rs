@@ -21,7 +21,7 @@ type Candidates = HashMap<(usize, usize), HashSet<u8>>;
 
 pub struct Board {
     board: [[u8; DIM]; DIM],
-    pub candidates: Candidates,
+    candidates: Candidates,
 }
 
 fn compute_taken_items_at(i: usize, j: usize, board: &[[u8; DIM]; DIM]) -> HashSet<u8> {

@@ -133,9 +133,5 @@ fn main() {
     ];
 
     let mut board = sudoku::Board::new(board_data);
-    let x = &board.candidates;
-    println!("{x:?}");
     board.solve();
-    let y = &board.candidates;
-    println!("{y:?}");
 }
