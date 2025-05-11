@@ -15,7 +15,6 @@ const fn generate_candidates() -> [u8; DIM] {
     arr
 }
 const CANDIDATES: [u8; DIM] = generate_candidates();
-const BOARD_DIM: usize = DIM * DIM;
 const BLOCK_DIM: usize = DIM.isqrt();
 
 type Candidates = HashMap<(usize, usize), HashSet<u8>>;
@@ -84,15 +83,8 @@ impl Board {
         Board { board, candidates }
     }
 
-    fn is_solved(&self) -> bool {
-        self.board.iter().flatten().all(|&x| x != NULL_ELEMENT)
-    }
-
     pub fn solve(&mut self) {
         while easy_fill(self) {
-            if self.is_solved() {
-                break;
-            }
             update_candidates(self);
         }
     }
