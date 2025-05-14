@@ -124,9 +124,9 @@ fn complete_unique_value(board: Board, possible_candidates: Candidates) -> (bool
     if let Some(((i, j), v)) = one_value {
         let val = HashMap::from([((i, j), v)]);
         let new_board = board.with_values(val);
-        return (true, new_board);
+        (true, new_board)
     } else {
-        return (false, board);
+        (false, board)
     }
 }
 
@@ -155,9 +155,7 @@ pub fn solve(board: Board) -> Result<Board, InvalidSudoku> {
 fn solve_sudoku_backtracking(board: Board) -> Result<Board, InvalidSudoku> {
     let candidates = board.compute_candidates().unwrap();
     let ((i, j), selected) = candidates
-        .iter()
-        .filter(|(_, x)| x.len() <= 3)
-        .next()
+        .iter().find(|(_, x)| x.len() <= 3)
         .unwrap();
     for v in selected {
         let values_at = HashMap::from([((*i, *j), *v)]);

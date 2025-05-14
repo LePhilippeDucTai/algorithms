@@ -6,11 +6,10 @@ use algorithms::{
     },
     math::{
         self,
-        brownian::{BrownianProcess, RandomProcess},
+        brownian::RandomProcess,
     },
 };
 use itertools::Itertools;
-use plotly::{Plot, Scatter};
 use rand::prelude::*;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use std::time::Instant;
