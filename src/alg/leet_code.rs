@@ -102,6 +102,10 @@ pub fn compute_pi(n: u64) -> f64 {
     4.0 * pi * dt
 }
 
+fn combination_sum(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+    vec![]
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -122,5 +126,32 @@ mod tests {
     fn test_compute_pi() {
         let result = compute_pi(1_000_000);
         assert_ne!(result, 0.);
+    }
+
+    #[test]
+    fn test_combination_sum() {
+        let expected: Vec<Vec<i32>> = vec![vec![2, 2, 3], vec![7]];
+        let candidates = vec![2, 3, 6, 7];
+        let target = 7;
+        let actual = combination_sum(candidates, target);
+        assert_eq!(actual, expected)
+    }
+
+    #[test]
+    fn test_combination_sum_example_2() {
+        let expected: Vec<Vec<i32>> = vec![vec![2, 2, 2, 2], vec![2, 3, 3], vec![3, 5]];
+        let candidates = vec![2, 3, 5];
+        let target = 8;
+        let actual = combination_sum(candidates, target);
+        assert_eq!(actual, expected)
+    }
+
+    #[test]
+    fn test_combination_sum_example_3() {
+        let expected: Vec<Vec<i32>> = vec![];
+        let candidates = vec![2];
+        let target = 1;
+        let actual = combination_sum(candidates, target);
+        assert_eq!(actual, expected)
     }
 }

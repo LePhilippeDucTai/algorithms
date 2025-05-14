@@ -99,25 +99,24 @@ fn main() {
     let duration = start.elapsed();
     info!("Univariate Normal {n_sim} est de : {:?}", duration);
 
-    let brownian = BrownianProcess;
-    let mut srng = StdRng::from_seed([5; 32]);
-    let trajectory = brownian.sample(&mut srng, 8, 100.);
-    let (t, x) = trajectory.iter().map(|&(t, x)| (t, x)).unzip();
-    println!("{trajectory:?}");
-    let mut plot = Plot::new();
-    let trace = Scatter::new(t, x);
-    plot.add_trace(trace);
-    plot.write_html("out.html");
+    // let brownian = BrownianProcess;
+    // let mut srng = StdRng::from_seed([5; 32]);
+    // let trajectory = brownian.sample(&mut srng, 8, 100.);
+    // let (t, x): (Vec<f64>, Vec<f64>) = trajectory.iter().map(|&(t, x)| (t, x)).unzip();
+    // let mut plot = Plot::new();
+    // let trace = Scatter::new(t, x);
+    // plot.add_trace(trace);
+    // plot.write_html("out.html");
 
-    let mut plot = Plot::new();
-    let _: () = brownian
-        .sample_iter(&mut srng, 10, 1.)
-        .take(1_000)
-        .for_each(|trajectory| {
-            let (t, x) = trajectory.iter().map(|&(t, x)| (t, x)).unzip();
-            let trace = Scatter::new(t, x);
-            plot.add_trace(trace);
-        });
+    // let mut plot = Plot::new();
+    // let _: () = brownian
+    //     .sample_iter(&mut srng, 10, 1.)
+    //     .take(1_000)
+    //     .for_each(|trajectory| {
+    //         let (t, x) = trajectory.iter().map(|&(t, x)| (t, x)).unzip();
+    //         let trace = Scatter::new(t, x);
+    //         plot.add_trace(trace);
+    //     });
     // plot.write_html("out.html");
     //
     // let board_data = [
