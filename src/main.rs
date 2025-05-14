@@ -4,10 +4,7 @@ use algorithms::{
         sort::{self},
         sudoku::{Board, solve},
     },
-    math::{
-        self,
-        brownian::RandomProcess,
-    },
+    math::{self},
 };
 use itertools::Itertools;
 use rand::prelude::*;
