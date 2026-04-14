@@ -263,22 +263,3 @@ mod tests {
     }
 }
 
-// pub fn searchsorted(v: Vec<i32>, value: i32) -> usize {
-//     if v.len() <= 10 {
-//         return linearsearch(v, value);
-//     }
-//     0
-// match (v.len(), v) {
-//     (0, _) => vec![value],
-//     (1, s) => {
-//         if s[0] < value {
-//             vec![s[0], value]
-//         }
-//     }
-//     (_, _) {
-//         let n = v.len();
-//         let m = n / 2;
-//         let (a, mid) = (v[0], v[mid]);
-//     }
-// }
-// }

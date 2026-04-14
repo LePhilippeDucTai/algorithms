@@ -26,8 +26,8 @@ pub struct StandardNormal {
 
 impl Distribution<(f64, f64)> for BivariateStandardNormal {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> (f64, f64) {
-        let UniformUnitDisk = UniformUnitDisk;
-        let (x, y) = UniformUnitDisk.sample(rng);
+        let disk = UniformUnitDisk;
+        let (x, y) = disk.sample(rng);
         let s = x * x + y * y;
         let r = -2. * s.ln();
         let c = (r / s).sqrt();

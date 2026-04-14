@@ -256,8 +256,8 @@ mod tests {
             [9, 1, 3, 5, 8, 6, 7, 4, 2],
             [6, 2, 8, 7, 9, 4, 1, 3, 5],
             [3, 5, 6, 4, 7, 8, 2, 1, 9],
-            [8, 4, 1, 9, 3, 5, 0, 6, 7], // Note: The original AI Escargot has a unique solution, but some solvers may fill the [7][6] cell with 5 or 8 depending on implementation. Here, 0 is a placeholder.
-            [2, 9, 7, 2, 6, 1, 3, 5, 4],
+            [2, 4, 1, 9, 3, 5, 8, 6, 7],
+            [8, 9, 7, 2, 6, 1, 3, 5, 4],
         ];
 
         let board = Board::new(board_data);

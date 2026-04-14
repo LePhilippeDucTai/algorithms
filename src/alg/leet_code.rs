@@ -102,8 +102,28 @@ pub fn compute_pi(n: u64) -> f64 {
     4.0 * pi * dt
 }
 
+fn dfs(candidates: &[i32], remaining: i32, start: usize, current: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
+    if remaining == 0 {
+        result.push(current.clone());
+        return;
+    }
+    for i in start..candidates.len() {
+        let c = candidates[i];
+        if c > remaining {
+            break;
+        }
+        current.push(c);
+        dfs(candidates, remaining - c, i, current, result);
+        current.pop();
+    }
+}
+
 fn combination_sum(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
-    vec![]
+    let mut candidates = candidates;
+    candidates.sort_unstable();
+    let mut result = vec![];
+    dfs(&candidates, target, 0, &mut vec![], &mut result);
+    result
 }
 
 #[cfg(test)]
